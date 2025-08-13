@@ -21,7 +21,7 @@ jobs:
       contents: read
       pull-requests: write
     with:
-      terraform_version: "1.13"
+      terraform_version: "1.12"
       working_directory: "."
 
   apply:
@@ -34,6 +34,6 @@ jobs:
       contents: read
       pull-requests: write
     with:
-      terraform_version: "1.13"
+      terraform_version: "1.12"
       working_directory: "."
       terraform_plan_file: ${{ needs.plan.outputs.plan_file }}
