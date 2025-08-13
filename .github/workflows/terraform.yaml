@@ -15,19 +15,19 @@ jobs:
   plan:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
-    uses: Tanchwa/terraform-deployment-workflows/.github/workflows/terraform_plan.yaml@v0.1.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.1.0
     secrets: inherit
     with:
       terraform_version: "1.13"
-      working_directory: "CHANGE_ME"
+      working_directory: "."
 
   apply:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     needs: plan
     name: 'Terraform Apply'
-    uses: Tanchwa/terraform-deployment-workflows/.github/workflows/terraform_apply.yaml@v0.1.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.1.0
     secrets: inherit
     with:
       terraform_version: "1.13"
-      working_directory: "CHANGE_ME"
+      working_directory: "."
       terraform_plan_file: ${{ needs.plan.outputs.plan_file }}

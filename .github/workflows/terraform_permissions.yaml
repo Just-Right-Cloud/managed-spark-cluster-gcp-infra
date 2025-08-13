@@ -5,7 +5,7 @@ jobs:
   permissions:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Permissions'
-    uses: Tanchwa/terraform-deployment-workflows/.github/workflows/terraform_permissions.yaml@v0.1.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_permissions.yaml@v0.1.0
     with:
       working_directory: "CHANGE_ME"
     secrets: inherit
