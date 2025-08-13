@@ -12,14 +12,6 @@ on:
 
 
 jobs:
-  checkout: 
-    name: 'Checkout Repository'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
   plan:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
