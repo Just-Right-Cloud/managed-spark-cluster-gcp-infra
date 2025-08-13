@@ -14,5 +14,3 @@ terraform {
 provider "google" {
   #identity configured in pipeline
 }
-
-
