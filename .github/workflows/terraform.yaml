@@ -17,6 +17,9 @@ jobs:
     name: 'Terraform Plan'
     uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.1.1
     secrets: inherit
+    permissions:
+      contents: read
+      pull-requests: write
     with:
       terraform_version: "1.13"
       working_directory: "."
@@ -27,6 +30,9 @@ jobs:
     name: 'Terraform Apply'
     uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.1.1
     secrets: inherit
+    permissions:
+      contents: read
+      pull-requests: write
     with:
       terraform_version: "1.13"
       working_directory: "."
