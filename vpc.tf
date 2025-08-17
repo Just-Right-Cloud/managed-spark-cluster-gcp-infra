@@ -1,4 +1,8 @@
 module "network" {
+<<<<<<< Updated upstream
+=======
+  depends_on = [ google_project_service.project ]
+>>>>>>> Stashed changes
   source  = "terraform-google-modules/network/google"
   version = "11.1.1"
 
