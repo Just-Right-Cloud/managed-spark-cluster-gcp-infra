@@ -1,12 +1,8 @@
 module "network" {
-<<<<<<< Updated upstream
-=======
-  depends_on = [ google_project_service.project ]
->>>>>>> Stashed changes
   source  = "terraform-google-modules/network/google"
   version = "11.1.1"
 
-  project_id = var.project_id
+  project_id   = var.project_id
   network_name = "gke-vpc"
   routing_mode = "REGIONAL"
 
@@ -22,4 +18,7 @@ module "network" {
       }
     }
   ]
+
+  depends_on = [google_project_service.project]
 }
+
