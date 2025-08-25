@@ -15,7 +15,6 @@ resource "kubernetes_namespace" "argo" {
   }
 
   timeouts {
-    create = "5m"
     delete = "20m"
   }
 
