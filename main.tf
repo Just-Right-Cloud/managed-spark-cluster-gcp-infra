@@ -22,6 +22,11 @@ data "http" "argo_operator" {
   url = "https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml"
 }
 
+resource "local_file" "argo_operator" {
+  content  = tostring(data.http.argo_operator.response_body)
+  filename = "${path.module}/argo-operator.yaml"
+}
+
 #resource "kubernetes_manifest" "argo_crds" {
 #  for_each   = toset(provider::kubernetes::manifest_decode_multi(file(data.http.argo_crds.response_body)))
 #  manifest   = each.value
@@ -29,7 +34,7 @@ data "http" "argo_operator" {
 #}
 
 resource "kubernetes_manifest" "argo_operator" {
-  for_each   = toset(provider::kubernetes::manifest_decode_multi(tostring(data.http.argo_operator.response_body)))
+  for_each   = toset(provider::kubernetes::manifest_decode_multi(file(local_file.argo_operator.filename)))
   manifest   = each.value
   depends_on = [kubernetes_namespace.argo]
 }
