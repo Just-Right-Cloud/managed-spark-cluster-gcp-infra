@@ -11,12 +11,14 @@ resource "google_container_cluster" "main" {
 
 resource "kubernetes_namespace" "argo" {
   metadata {
-    name = "argo"
+    name = "argocd"
   }
 
   depends_on = [google_container_cluster.main]
 }
 
+// needs rbac on cluster ahead of time
+// gave the backend service account cluster-developer role
 resource "helm_release" "argo" {
   name       = "argo"
   repository = "oci://ghcr.io/argoproj/argo-helm"
