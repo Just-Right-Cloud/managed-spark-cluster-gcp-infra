@@ -1,0 +1,7 @@
+server:
+  extraArgs:
+    - --auth-mode=server
+  service:
+    type: LoadBalancer
+  ingress:
+    enabled: false
