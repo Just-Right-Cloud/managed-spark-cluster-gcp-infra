@@ -16,10 +16,10 @@ resource "kubernetes_namespace" "argo" {
 
 resource "helm_release" "argo" {
   name       = "argo"
-  repository = "https://github.com/argoproj/argo-helm"
+  repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-workflows"
   namespace  = kubernetes_namespace.argo.metadata[0].name
-  version    = "argo-cd-8.3.0"
+  version    = "v8.3.0"
 
   set = [
     {
