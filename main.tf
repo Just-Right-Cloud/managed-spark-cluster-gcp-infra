@@ -14,27 +14,27 @@ resource "kubernetes_namespace" "argo" {
   }
 }
 
-#data "http" "argo_crds" {
-#  url = "https://github.com/argoproj/argo-cd/tree/master/manifests/crds"
-#}
+resource "helm_release" "argo" {
+  name       = "argo"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-workflows"
+  namespace  = kubernetes_namespace.argo.metadata[0].name
+  version    = "5.6.0"
 
-data "http" "argo_operator" {
-  url = "https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml"
-}
+  set {
+    name  = "server.service.type"
+    value = "LoadBalancer"
+  }
 
-resource "local_file" "argo_operator" {
-  content  = tostring(data.http.argo_operator.response_body)
-  filename = "${path.module}/argo-operator.yaml"
-}
+  set {
+    name  = "server.extraArgs"
+    value = "--auth-mode=server"
+  }
 
-#resource "kubernetes_manifest" "argo_crds" {
-#  for_each   = toset(provider::kubernetes::manifest_decode_multi(file(data.http.argo_crds.response_body)))
-#  manifest   = each.value
-#  depends_on = [kubernetes_namespace.argo]
-#}
+  set {
+    name  = "server.ingress.enabled"
+    value = "false"
+  }
 
-resource "kubernetes_manifest" "argo_operator" {
-  for_each   = toset(provider::kubernetes::manifest_decode_multi(file("${path.module}/argo-operator.yaml")))
-  manifest   = each.value
   depends_on = [kubernetes_namespace.argo]
 }
