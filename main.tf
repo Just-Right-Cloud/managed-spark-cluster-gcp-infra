@@ -21,17 +21,17 @@ resource "helm_release" "argo" {
   namespace  = kubernetes_namespace.argo.metadata[0].name
   version    = "5.6.0"
 
-  set {
+  set = {
     name  = "server.service.type"
     value = "LoadBalancer"
   }
 
-  set {
+  set = {
     name  = "server.extraArgs"
     value = "--auth-mode=server"
   }
 
-  set {
+  set = {
     name  = "server.ingress.enabled"
     value = "false"
   }
