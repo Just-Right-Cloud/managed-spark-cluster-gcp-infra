@@ -18,6 +18,7 @@ resource "kubernetes_namespace" "argo" {
 }
 
 // needs rbac on cluster ahead of time
+// gave the backend service account cluster-developer role
 resource "helm_release" "argo" {
   name       = "argo"
   repository = "oci://ghcr.io/argoproj/argo-helm"
