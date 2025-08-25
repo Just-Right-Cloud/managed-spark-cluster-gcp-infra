@@ -7,3 +7,45 @@ resource "google_container_cluster" "main" {
 
   depends_on = [google_project_service.project, module.network]
 }
+
+resource "kubernetes_namespace" "argo" {
+  metadata {
+    name = "argo"
+  }
+
+  depends_on = [google_container_cluster.main]
+}
+
+resource "helm_release" "argo" {
+  name       = "argo"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  namespace  = kubernetes_namespace.argo.metadata[0].name
+  version    = "8.3.0"
+
+  set = [
+    {
+      name  = "server.extraArgs"
+      value = "--auth-mode=server"
+    },
+    {
+      name  = "server.ingress.enabled"
+      value = "false"
+    },
+    {
+      name  = "server.service.type"
+      value = "LoadBalancer"
+    }
+  ]
+
+
+  depends_on = [kubernetes_namespace.argo]
+}
+
+// for some reason, Hashi expects to be able to contact the API to check types resolution
+// so the cluster needs to be created before we can apply manifests, or need to use gavibunney/kubectl provider
+#resource "kubernetes_manifest" "app_of_apps" {
+#  manifest = yamldecode(file("${path.module}/manifests/app_of_apps.yaml"))
+#
+#  depends_on = [helm_release.argo]
+#}

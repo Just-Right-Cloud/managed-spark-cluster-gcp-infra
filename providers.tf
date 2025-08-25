@@ -5,6 +5,14 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 6.48.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.38.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 3.0.2"
+    }
   }
   backend "gcs" {
     #backend info set in pipeline
@@ -13,4 +21,26 @@ terraform {
 
 provider "google" {
   #identity configured in pipeline
+}
+
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  host                   = "https://${google_container_cluster.main.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.main.master_auth[0].cluster_ca_certificate)
+
+  ignore_annotations = [
+    "^autopilot\\.gke\\.io\\/.*",
+    "^cloud\\.google\\.com\\/.*"
+  ]
+}
+
+
+provider "helm" {
+  kubernetes = {
+    host                   = "https://${google_container_cluster.main.endpoint}"
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(google_container_cluster.main.master_auth[0].cluster_ca_certificate)
+  }
 }
