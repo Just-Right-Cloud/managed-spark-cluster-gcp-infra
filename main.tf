@@ -34,7 +34,7 @@ resource "local_file" "argo_operator" {
 #}
 
 resource "kubernetes_manifest" "argo_operator" {
-  for_each   = toset(provider::kubernetes::manifest_decode_multi(file(local_file.argo_operator.filename)))
+  for_each   = toset(provider::kubernetes::manifest_decode_multi(file("${path.module}/argo-operator.yaml")))
   manifest   = each.value
   depends_on = [kubernetes_namespace.argo]
 }
