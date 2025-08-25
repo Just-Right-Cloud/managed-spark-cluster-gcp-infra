@@ -29,7 +29,7 @@ data "http" "argo_operator" {
 #}
 
 resource "kubernetes_manifest" "argo_operator" {
-  for_each   = toset(provider::kubernetes::manifest_decode_multi(file(data.http.argo_operator.response_body)))
+  for_each   = toset(provider::kubernetes::manifest_decode_multi(tostring(data.http.argo_operator.response_body)))
   manifest   = each.value
   depends_on = [kubernetes_namespace.argo]
 }
