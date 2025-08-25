@@ -24,17 +24,9 @@ resource "helm_release" "argo" {
   namespace  = kubernetes_namespace.argo.metadata[0].name
   version    = "8.3.0"
 
-  set = [
-    {
-      name  = "server.extraArgs"
-      value = "--auth-mode=server"
-    },
-    {
-      name  = "server.ingress.enabled"
-      value = "false"
-    }
+  values = [
+    file("${path.module}/argo-values.yaml")
   ]
-
 
   depends_on = [kubernetes_namespace.argo]
 }
