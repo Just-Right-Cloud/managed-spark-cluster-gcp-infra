@@ -14,6 +14,11 @@ resource "kubernetes_namespace" "argo" {
     name = "argocd"
   }
 
+  timeouts {
+    create = "5m"
+    delete = "20m"
+  }
+
   depends_on = [google_container_cluster.main]
 }
 
