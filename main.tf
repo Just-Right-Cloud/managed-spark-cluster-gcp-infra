@@ -2,8 +2,9 @@ resource "google_container_cluster" "main" {
   name     = "spark-cluster"
   location = var.location
 
-  enable_autopilot   = true
-  initial_node_count = 1
+  enable_autopilot    = true
+  initial_node_count  = 1
+  deletion_protection = false
 
   depends_on = [google_project_service.project, module.network]
 }
@@ -21,7 +22,7 @@ resource "helm_release" "argo" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = kubernetes_namespace.argo.metadata[0].name
-  version    = "8.3.0"
+  version    = "8.2.7"
 
   set = [
     {
