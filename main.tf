@@ -12,6 +12,8 @@ resource "kubernetes_namespace" "argo" {
   metadata {
     name = "argo"
   }
+
+  depends_on = [google_container_cluster.main]
 }
 
 resource "helm_release" "argo" {
