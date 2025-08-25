@@ -32,10 +32,6 @@ resource "helm_release" "argo" {
     {
       name  = "server.ingress.enabled"
       value = "false"
-    },
-    {
-      name  = "server.service.type"
-      value = "LoadBalancer"
     }
   ]
 
