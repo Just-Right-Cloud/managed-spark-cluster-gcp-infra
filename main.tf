@@ -14,22 +14,22 @@ resource "kubernetes_namespace" "argo" {
   }
 }
 
-data "http" "argo_crds" {
-  url = "https://github.com/argoproj/argo-cd/tree/master/manifests/crds"
-}
+#data "http" "argo_crds" {
+#  url = "https://github.com/argoproj/argo-cd/tree/master/manifests/crds"
+#}
 
 data "http" "argo_operator" {
   url = "https://github.com/argoproj/argo-cd/blob/master/manifests/install.yaml"
 }
 
-resource "kubernetes_manifest" "argo_crds" {
-  for_each   = toset(provider::kubernetes::manifest_decode_multi(data.http.argo_crds.body))
-  manifest   = each.value
-  depends_on = [kubernetes_namespace.argo]
-}
+#resource "kubernetes_manifest" "argo_crds" {
+#  for_each   = toset(provider::kubernetes::manifest_decode_multi(data.http.argo_crds.body))
+#  manifest   = each.value
+#  depends_on = [kubernetes_namespace.argo]
+#}
 
 resource "kubernetes_manifest" "argo_operator" {
   for_each   = toset(provider::kubernetes::manifest_decode_multi(data.http.argo_operator.body))
   manifest   = each.value
-  depends_on = [kubernetes_namespace.argo, kubernetes_manifest.argo_crds]
+  depends_on = [kubernetes_namespace.argo]
 }
