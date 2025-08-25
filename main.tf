@@ -41,3 +41,9 @@ resource "helm_release" "argo" {
 
   depends_on = [kubernetes_namespace.argo]
 }
+
+resource "kubernetes_manifest" "app_of_apps" {
+  manifest = yamldecode(file("${path.module}/manifests/app_of_apps.yaml"))
+
+  depends_on = [helm_release.argo]
+}
