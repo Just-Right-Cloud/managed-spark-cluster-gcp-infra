@@ -22,7 +22,7 @@ resource "helm_release" "argo" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = kubernetes_namespace.argo.metadata[0].name
-  version    = "8.3.0"
+  version    = "8.2.7"
 
   set = [
     {
