@@ -15,7 +15,7 @@ jobs:
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Test'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@vmain
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@main
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
