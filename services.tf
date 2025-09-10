@@ -1,14 +1,14 @@
 locals {
   required_apis = [
-    "compute", 
+    "compute",
     "container"
-    ]
+  ]
 }
 
 resource "google_project_service" "project" {
   for_each = toset(local.required_apis)
-  project = var.project_id
-  service = "${each.value}.googleapis.com"
+  project  = var.project_id
+  service  = "${each.value}.googleapis.com"
 
   timeouts {
     create = "30m"
@@ -17,3 +17,4 @@ resource "google_project_service" "project" {
 
   disable_on_destroy = false
 }
+
