@@ -10,6 +10,7 @@ on:
       - closed
       - synchronize
 
+
 jobs:
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
