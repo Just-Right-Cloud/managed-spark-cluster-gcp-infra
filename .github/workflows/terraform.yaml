@@ -15,7 +15,7 @@ jobs:
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Test'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@main
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@v0.3.0
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -31,9 +31,9 @@ jobs:
       test_level: "integration"
 
   plan:
-    if: github.repository != 'Tanchwa/infrastructure-deployment-template'
+    if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.2.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.3.0
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -49,7 +49,7 @@ jobs:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     needs: plan
     name: 'Terraform Apply'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.2.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.3.0
     secrets:
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
