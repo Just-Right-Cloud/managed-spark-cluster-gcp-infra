@@ -1,6 +1,6 @@
 on:
   push:
-    branches: 
+    branches:
       - '*'
       - '!main'
   pull_request:
@@ -12,10 +12,28 @@ on:
 
 
 jobs:
-  plan:
+  test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
+    name: 'Terraform Test'
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@v0.3.0
+    secrets: 
+      GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+      GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+      GOOGLE_STATE_BUCKET: ${{ secrets.GOOGLE_STATE_BUCKET }}
+      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    with:
+      terraform_version: "1.12"
+      working_directory: "."
+      test_level: "integration"
+
+  plan:
+    if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.2.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.3.0
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -27,13 +45,12 @@ jobs:
     with:
       terraform_version: "1.12"
       working_directory: "."
-
   apply:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     needs: plan
     name: 'Terraform Apply'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.2.0
-    secrets: 
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.3.0
+    secrets:
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
       GOOGLE_STATE_BUCKET: ${{ secrets.GOOGLE_STATE_BUCKET }}
