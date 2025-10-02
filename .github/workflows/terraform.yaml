@@ -49,6 +49,7 @@ jobs:
       tf_vars_filename: "test.tfvars.json"
       environment: "test"
 
+
   plan:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
