@@ -45,8 +45,8 @@ jobs:
       working_directory: "."
       test_level: "integration"
       tf_vars_artifact: "tfvars"
-      tf_vars_file: "test.tfvars.json"
-      environemt: "test"
+      tf_vars_filename: "test.tfvars.json"
+      environment: "test"
 
   plan:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
@@ -64,8 +64,8 @@ jobs:
       terraform_version: "1.12"
       working_directory: "."
       tf_vars_artifact: "tfvars"
-      tf_vars_file: "test.tfvars.json"
-      environemt: "test"
+      tf_vars_filename: "test.tfvars.json"
+      environment: "test"
 
   apply:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
@@ -84,5 +84,5 @@ jobs:
       terraform_version: "1.12"
       working_directory: "."
       tf_vars_artifact: "tfvars"
-      tf_vars_file: "test.tfvars.json"
-      environemt: "test"
+      tf_vars_filename: "test.tfvars.json"
+      environment: "test"
