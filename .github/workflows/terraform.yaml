@@ -30,7 +30,7 @@ jobs:
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Test'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@v0.4.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@main
     needs: upload_tf_vars
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
@@ -76,7 +76,7 @@ jobs:
       - plan
       - upload_tf_vars
     name: 'Terraform Apply'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.4.0
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@main
     secrets:
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
