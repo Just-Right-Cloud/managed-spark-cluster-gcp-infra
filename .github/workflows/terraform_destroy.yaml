@@ -2,10 +2,26 @@ on:
   workflow_dispatch:
 
 jobs:
+  upload_tf_vars:
+    name: 'Upload tfvars to Artifact'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload tfvars
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfvars
+          path: 'test.tfvars.json'
+
+
   destroy:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Destroy'
     uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_destroy.yaml@main
+    needs: upload_tf_vars
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -17,3 +33,6 @@ jobs:
     with:
       terraform_version: "1.12"
       working_directory: "."
+      environment: "test"
+      tf_vars_artifact: "tfvars"
+      tf_vars_filename: "test.tfvars.json"
