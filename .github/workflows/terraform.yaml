@@ -12,10 +12,25 @@ on:
 
 
 jobs:
+  upload_tf_vars:
+    name: 'Upload tfvars to Artifact'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload tfvars
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfvars
+          path: 'test.tfvars.json'
+
+
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Test'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@v0.3.2
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_test.yaml@v0.4.0
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -29,11 +44,13 @@ jobs:
       terraform_version: "1.12"
       working_directory: "."
       test_level: "integration"
+      tf_vars_artifact: "tfvars"
+      tf_vars_file: "test.tfvars.json"
 
   plan:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     name: 'Terraform Plan'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.3.2
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_plan.yaml@v0.4.0
     secrets: 
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -45,11 +62,13 @@ jobs:
     with:
       terraform_version: "1.12"
       working_directory: "."
+      tf_vars_artifact: "tfvars"
+      tf_vars_file: "test.tfvars.json"
   apply:
     if: (github.event.pull_request.merged && github.base_ref == 'main') && github.repository != 'Tanchwa/infrastructure-deployment-template'
     needs: plan
     name: 'Terraform Apply'
-    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.3.2
+    uses: Tanchwa/workflows-terraform-deployment/.github/workflows/terraform_apply.yaml@v0.4.0
     secrets:
       GOOGLE_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
       GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -61,3 +80,5 @@ jobs:
     with:
       terraform_version: "1.12"
       working_directory: "."
+      tf_vars_artifact: "tfvars"
+      tf_vars_file: "test.tfvars.json"
