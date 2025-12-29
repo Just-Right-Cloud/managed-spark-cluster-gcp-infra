@@ -57,7 +57,7 @@ jobs:
       working_directory: "."
       test_level: "integration"
       tf_vars_artifact: "tfvars"
-      tf_vars_filename: "test.tfvars.json"
+      tf_vars_filename: "injected.tfvars.json"
       environment: "test"
 
   plan:
@@ -77,7 +77,7 @@ jobs:
       terraform_version: "1.12"
       working_directory: "."
       tf_vars_artifact: "tfvars"
-      tf_vars_filename: "test.tfvars.json"
+      tf_vars_filename: "injected.tfvars.json"
       environment: "test"
 
   apply:
@@ -99,5 +99,5 @@ jobs:
       terraform_version: "1.12"
       working_directory: "."
       tf_vars_artifact: "tfvars"
-      tf_vars_filename: "test.tfvars.json"
+      tf_vars_filename: "injected.tfvars.json"
       environment: "test"
