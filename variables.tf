@@ -36,9 +36,3 @@ variable "github_repository_name" {
   type        = string
   default     = "Just-Right-Cloud/argo-cd"
 }
-
-variable "github_repository_branch" {
-  description = "The branch of the GitHub repository to use."
-  type        = string
-  default     = "main"
-}
