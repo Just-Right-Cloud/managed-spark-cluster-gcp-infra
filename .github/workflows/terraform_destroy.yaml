@@ -10,6 +10,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Extra Variables
+        run: |
+          jq '. += {
+            "github_repository_name": "Just-Right-Cloud/argo-cd",
+            "github_application_id": "${{ vars.ARGOCD_APP_ID }}",
+            "github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}",
+            "github_application_private_key": "${{ secrets.ARGOCD_APP_PRIVATE_KEY }}"
+          }' test.tfvars.json > injected.tfvars.json
+
+ 
       - name: Upload tfvars
         uses: actions/upload-artifact@v4
         with:
