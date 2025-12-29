@@ -28,7 +28,7 @@ jobs:
             "github_application_id": "${{ secrets.ARGOCD_APP_ID }}",
             "github_application_installation_id": "${{ secrets.ARGOCD_APP_INSTALLATION_ID }}",
             "github_application_private_key": "${{ secrets.ARGOCD_APP_PRIVATE_KEY }}"
-          }' test.tfvars.json > test.tfvars.json
+          }' test.tfvars.json > injected.tfvars.json
 
       - run: cat test.tfvars.json
 
@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfvars
-          path: 'test.tfvars.json'
+          path: 'injected.tfvars.json'
 
   test:
     if: github.repository != 'Tanchwa/infrastructure-deployment-template'
