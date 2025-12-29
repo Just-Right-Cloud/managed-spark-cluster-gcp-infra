@@ -23,7 +23,7 @@ jobs:
 
       - name: Extra Variables
         run: |
-          echo "github_repository_name=${{ GITHUB_REPOSITORY }}" >> test.tfvars.json
+          echo "github_repository_name=${{ env.GITHUB_REPOSITORY }}" >> test.tfvars.json
           echo "github_application_id=${{ vars.ARGOCD_APP_ID }}" >> test.tfvars.json
           echo "github_application_installation_id=${{ vars.ARGOCD_APP_INSTALLATION_ID }}" >> test.tfvars.json
           echo "github_application_private_key=${{ vars.ARGOCD_APP_PRIVATE_KEY }}" >> test.tfvars.json
