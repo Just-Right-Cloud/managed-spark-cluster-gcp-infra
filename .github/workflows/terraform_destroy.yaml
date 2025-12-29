@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfvars
-          path: 'test.tfvars.json'
+          path: 'injected.tfvars.json'
 
 
   destroy:
@@ -46,4 +46,4 @@ jobs:
       working_directory: "."
       environment: "test"
       tf_vars_artifact: "tfvars"
-      tf_vars_filename: "test.tfvars.json"
+      tf_vars_filename: "injected.tfvars.json"
