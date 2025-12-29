@@ -37,6 +37,32 @@ resource "helm_release" "argo" {
   depends_on = [kubernetes_namespace.argo]
 }
 
+resource "helm_release" "argo_app_of_apps_bootstrap" {
+  name      = "argo-app-of-apps-bootstrap"
+  chart     = "${path.module}/charts/argo-bootstrap"
+  namespace = kubernetes_namespace.argo.metadata[0].name
+
+  set = [{
+    name  = "githubRepositoryName"
+    value = var.github_repository_name
+    },
+    {
+      name  = "githubApplicationId"
+      value = var.github_application_id
+    },
+    {
+      name  = "githubApplicationInstallationId"
+      value = var.github_application_installation_id
+    },
+    {
+      name  = "githubApplicationPrivateKey"
+      value = var.github_application_private_key
+    }
+  ]
+
+  depends_on = [helm_release.argo]
+}
+
 // for some reason, Hashi expects to be able to contact the API to check types resolution
 // so the cluster needs to be created before we can apply manifests, or need to use gavibunney/kubectl provider
 #resource "kubernetes_manifest" "app_of_apps" {

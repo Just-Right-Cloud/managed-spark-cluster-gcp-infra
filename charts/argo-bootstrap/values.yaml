@@ -1,0 +1,8 @@
+githubRepositoryName: my-repo
+githubApplicationId: "123456"
+githubApplicationInstallationId: "654321"
+githubApplicationPrivateKey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEpAIBAAKCAQEAzK1...
+  ...rest of your private key...
+  -----END RSA PRIVATE KEY-----
