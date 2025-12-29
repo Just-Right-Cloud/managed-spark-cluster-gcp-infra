@@ -30,7 +30,7 @@ jobs:
             "github_application_private_key": "${{ secrets.ARGOCD_APP_PRIVATE_KEY }}"
           }' test.tfvars.json > injected.tfvars.json
 
-      - run: cat test.tfvars.json
+      - run: cat injected.tfvars.json
 
       - name: Upload tfvars
         uses: actions/upload-artifact@v4

@@ -10,11 +10,6 @@ variable "location" {
   default     = "asia-south1"
 }
 
-variable "github_repository_username" {
-  description = "The GitHub username for the repository containing the Kubernetes manifests."
-  type        = string
-}
-
 variable "github_application_id" {
   description = "The ID of the GitHub application."
   type        = string
