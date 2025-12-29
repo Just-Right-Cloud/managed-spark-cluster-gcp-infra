@@ -4,6 +4,7 @@ variable "project_id" {
   default     = "eighth-duality-468907-t2"
 }
 
+
 variable "location" {
   description = "The region to use for infrastructure."
   type        = string
