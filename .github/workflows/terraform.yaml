@@ -23,9 +23,9 @@ jobs:
 
       - name: Extra Variables
         run: |
-          echo '"github_repository_name": "${{ github.repository }}"' >> test.tfvars.json
-          echo '"github_application_id": "${{ vars.ARGOCD_APP_ID }}"' >> test.tfvars.json
-          echo '"github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}"' >> test.tfvars.json
+          echo '"github_repository_name": "Just-Right-Cloud/argo-cd",' >> test.tfvars.json
+          echo '"github_application_id": "${{ vars.ARGOCD_APP_ID }}",' >> test.tfvars.json
+          echo '"github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}",' >> test.tfvars.json
           echo '"github_application_private_key": "${{ vars.ARGOCD_APP_PRIVATE_KEY }}"' >> test.tfvars.json
 
       - name: Upload tfvars
