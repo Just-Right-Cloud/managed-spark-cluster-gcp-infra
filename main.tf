@@ -47,12 +47,12 @@ metadata:
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
-  url: https://github.com/${var.github_repository_name}.git"
+  url: "https://github.com/${var.github_repository_name}.git"
   name: private-argo-repo
   project: default
   githubAppId: "${var.github_application_id}"
   githubAppInstallationId: "${var.github_application_installation_id}"
-  githubAppPrivateKey: ${var.github_application_private_key}
+  githubAppPrivateKey: "${var.github_application_private_key}"
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -64,7 +64,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/${var.github_repository_name}.git
+    repoURL: "https://github.com/${var.github_repository_name}.git"
     targetRevision: HEAD
     path: Applications/
   destination:
