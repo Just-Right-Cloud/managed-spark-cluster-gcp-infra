@@ -37,6 +37,50 @@ resource "helm_release" "argo" {
   depends_on = [kubernetes_namespace.argo]
 }
 
+resource "kubernetes_manifest" "argo_app_of_apps" {
+  manifest = yamldecode(<<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: private-repo
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  url: https://github.com/${var.github_repository_name}.git"
+  name: private-argo-repo
+  project: default
+  githubAppId: "${var.github_application_id}"
+  githubAppInstallationId: "${var.github_application_installation_id}"
+  githubAppPrivateKey: ${var.github_application_private_key}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/${var.github_repository_name}/argo-cd.git
+    targetRevision: ${var.github_repository_branch}
+    path: Applications/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+EOF
+  )
+
+  depends_on = [helm_release.argo]
+}
+
 // for some reason, Hashi expects to be able to contact the API to check types resolution
 // so the cluster needs to be created before we can apply manifests, or need to use gavibunney/kubectl provider
 #resource "kubernetes_manifest" "app_of_apps" {
