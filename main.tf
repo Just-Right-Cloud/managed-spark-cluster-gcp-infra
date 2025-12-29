@@ -65,7 +65,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/${var.github_repository_name}.git
-    targetRevision: ${var.github_repository_branch}
+    targetRevision: HEAD
     path: Applications/
   destination:
     server: https://kubernetes.default.svc
