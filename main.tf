@@ -37,54 +37,31 @@ resource "helm_release" "argo" {
   depends_on = [kubernetes_namespace.argo]
 }
 
-resource "kubernetes_manifest" "argo_repo_secret" {
-  manifest = yamldecode(<<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: private-repo
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-stringData:
-  url: "https://github.com/${var.github_repository_name}.git"
-  name: private-argo-repo
-  project: default
-  githubAppId: "${var.github_application_id}"
-  githubAppInstallationId: "${var.github_application_installation_id}"
-  githubAppPrivateKey: "${var.github_application_private_key}"
-EOF
-  )
+resource "helm_release" "argo_app_of_apps_bootstrap" {
+  name      = "argo-app-of-apps-bootstrap"
+  chart     = "${path.module}/charts/argo-app-of-apps-bootstrap"
+  namespace = kubernetes_namespace.argo.metadata[0].name
+  version   = "8.3.0"
+
+  set = [{
+    name  = "githubRepositoryName"
+    value = var.github_repository_name
+    },
+    {
+      name  = "githubApplicationId"
+      value = var.github_application_id
+    },
+    {
+      name  = "githubApplicationInstallationId"
+      value = var.github_application_installation_id
+    },
+    {
+      name  = "githubApplicationPrivateKey"
+      value = var.github_application_private_key
+    }
+  ]
 
   depends_on = [helm_release.argo]
-}
-
-resource "kubernetes_manifest" "app_of_apps" {
-  manifest = yamldecode(<<EOF
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: app-of-apps
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: "https://github.com/${var.github_repository_name}.git"
-    targetRevision: HEAD
-    path: Applications/
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
-  syncPolicy:
-    automated:
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-EOF
-  )
-  depends_on = [kubernetes_manifest.argo_repo_secret]
 }
 
 // for some reason, Hashi expects to be able to contact the API to check types resolution
