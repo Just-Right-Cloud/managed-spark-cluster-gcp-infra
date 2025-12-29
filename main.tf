@@ -64,7 +64,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/${var.github_repository_name}/argo-cd.git
+    repoURL: https://github.com/${var.github_repository_name}.git
     targetRevision: ${var.github_repository_branch}
     path: Applications/
   destination:
