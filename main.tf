@@ -41,7 +41,6 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
   name      = "argo-app-of-apps-bootstrap"
   chart     = "${path.module}/charts/argo-bootstrap"
   namespace = kubernetes_namespace.argo.metadata[0].name
-  version   = "8.3.0"
 
   set = [{
     name  = "githubRepositoryName"
