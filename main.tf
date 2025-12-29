@@ -37,7 +37,7 @@ resource "helm_release" "argo" {
   depends_on = [kubernetes_namespace.argo]
 }
 
-resource "kubernetes_manifest" "argo_app_of_apps" {
+resource "kubernetes_manifest" "argo_repo_secret" {
   manifest = yamldecode(<<EOF
 apiVersion: v1
 kind: Secret
@@ -53,7 +53,14 @@ stringData:
   githubAppId: "${var.github_application_id}"
   githubAppInstallationId: "${var.github_application_installation_id}"
   githubAppPrivateKey: "${var.github_application_private_key}"
----
+EOF
+  )
+
+  depends_on = [helm_release.argo]
+}
+
+resource "kubernetes_manifest" "app_of_apps" {
+  manifest = yamldecode(<<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -77,8 +84,7 @@ spec:
       - CreateNamespace=true
 EOF
   )
-
-  depends_on = [helm_release.argo]
+  depends_on = [kubernetes_manifest.argo_repo_secret]
 }
 
 // for some reason, Hashi expects to be able to contact the API to check types resolution
