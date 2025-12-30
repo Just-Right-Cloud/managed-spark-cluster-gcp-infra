@@ -3,6 +3,8 @@ data "kubernetes_service" "argo_server" {
     name      = "argo-server"
     namespace = "argo"
   }
+
+  depends_on = [helm_release.argo]
 }
 
 resource "cloudflare_dns_record" "argo_cd" {
