@@ -1,3 +1,4 @@
-data "cloudflare_zone" "main" {
-  name = "andrewsutliff.com"
+data "cloudflare_zones" "main" {
+  name   = "andrewsutliff.com"
+  status = "active"
 }
