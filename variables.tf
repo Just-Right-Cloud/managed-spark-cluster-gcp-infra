@@ -32,3 +32,9 @@ variable "github_repository_name" {
   type        = string
   default     = "Just-Right-Cloud/argo-cd"
 }
+
+variable "cloudflare_api_token" {
+  description = "The API token for Cloudflare."
+  type        = string
+  sensitive   = true
+}
