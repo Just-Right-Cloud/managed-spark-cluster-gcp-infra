@@ -28,7 +28,7 @@ provider "google" {
 }
 
 provider "cloudflare" {
-
+  api_token = var.cloudflare_api_token
 }
 
 data "google_client_config" "default" {}
