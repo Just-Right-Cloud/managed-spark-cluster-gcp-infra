@@ -5,8 +5,8 @@ resource "google_iam_oauth_client" "argocd" {
   allowed_redirect_uris = ["https://${var.domain_name}.${var.dns_zone_name}/api/dex/callback"]
   allowed_scopes        = ["openid"]
   allowed_grant_types = [
-    "authorization_code",
-    "refresh_token",
+    "AUTHORIZATION_CODE_GRANT",
+    "REFRESH_TOKEN_GRANT",
   ]
 }
 
