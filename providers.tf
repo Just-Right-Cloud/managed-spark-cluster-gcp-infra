@@ -13,6 +13,10 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 3.0.2"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.15.0"
+    }
   }
   backend "gcs" {
     #backend info set in pipeline
@@ -21,6 +25,10 @@ terraform {
 
 provider "google" {
   #identity configured in pipeline
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
 }
 
 data "google_client_config" "default" {}
