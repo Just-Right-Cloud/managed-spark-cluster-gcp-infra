@@ -38,3 +38,15 @@ variable "cloudflare_api_token" {
   type        = string
   sensitive   = true
 }
+
+variable "dns_zone_name" {
+  description = "The DNS zone name for Cloudflare."
+  type        = string
+  default     = "andrewsutliff.com"
+}
+
+variable "domain_name" {
+  description = "The domain name to use for the Argo CD server."
+  type        = string
+  default     = "argo-public"
+}
