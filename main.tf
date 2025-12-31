@@ -28,7 +28,7 @@ resource "helm_release" "argo" {
   repository = "oci://ghcr.io/argoproj/argo-helm"
   chart      = "argo-cd"
   namespace  = kubernetes_namespace.argo.metadata[0].name
-  version    = "8.3.0"
+  version    = "9.2.3"
 
   values = [
     file("${path.module}/argo-values.yaml")
