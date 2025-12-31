@@ -1,15 +1,15 @@
-configs:
-  params:
-    server.insecure: "true"
+#configs:
+#  params:
+#    server.insecure: "true"
 
 server:
  #extraArgs:
  #  - --auth-mode=server
   service:
     type: LoadBalancer
-    annotations:
-      cloud.google.com/neg: '{"ingress": true}'
-      cloud.google.com/backend-config: '{"ports": "http":"argo-argocd-server"}'
+   # annotations:
+   #   cloud.google.com/neg: '{"ingress": true}'
+   #   cloud.google.com/backend-config: '{"ports": "http":"argo-argocd-server"}'
 
   ingress:
     enabled: false
