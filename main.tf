@@ -34,23 +34,20 @@ resource "helm_release" "argo" {
     file("${path.module}/argo-values.yaml")
   ]
 
-  set = [{
-    name  = "configs.cm.dex.config"
-    value = <<EOF
-    connectors:
-      - config:
-          issuer: https://accounts.google.com
-          clientID: ${google_iam_oauth_client.argocd.oauth_client_id}
-          clientSecret: ${google_iam_oauth_client_credential.argocd.client_secret}
-        type: oidc
-        id: google
-        name: Google
-    EOF
-    },
-    {
-      name  = "global.domain"
-      value = "${var.domain_name}.${var.dns_zone_name}"
-  }]
+  #  set = [{
+  #    name  = "configs.cm.dex.config"
+  #    value = <<EOF
+  #    connectors:
+  #      - config:
+  #          issuer: https://accounts.google.com
+  #          clientID: ${google_iam_oauth_client.argocd.oauth_client_id}
+  #          clientSecret: ${google_iam_oauth_client_credential.argocd.client_secret}
+  #        type: oidc
+  #        id: google
+  #        name: Google
+  #    EOF
+  #    }
+  #  ]
 
   depends_on = [kubernetes_namespace.argo]
 }
