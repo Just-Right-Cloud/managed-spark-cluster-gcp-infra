@@ -1,7 +1,8 @@
 locals {
   required_apis = [
     "compute",
-    "container"
+    "container",
+    "iam"
   ]
 }
 
