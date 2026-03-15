@@ -73,7 +73,7 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
   ]
   set_sensitive = [{
     name  = "githubApplicationPrivateKey"
-    value = var.github_application_private_key
+    value = replace(var.github_application_private_key, "\\n", "\n")
   }]
 
   depends_on = [helm_release.argo]
