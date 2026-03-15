@@ -1,6 +1,7 @@
 githubRepositoryName: my-repo
 githubApplicationId: "123456"
 githubApplicationInstallationId: "654321"
+cloudflareApiToken: "abcdefg"
 githubApplicationPrivateKey: |
   -----BEGIN RSA PRIVATE KEY-----
   MIIEpAIBAAKCAQEAzK1...
