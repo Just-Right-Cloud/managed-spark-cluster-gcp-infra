@@ -72,7 +72,7 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
     },
     {
       name  = "githubApplicationPrivateKey"
-      value = replace(var.github_application_private_key, "\\n", "\n")
+      value = var.github_application_private_key
     }
   ]
   depends_on = [helm_release.argo]
