@@ -58,24 +58,13 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
   chart     = "${path.module}/charts/argo-bootstrap"
   namespace = kubernetes_namespace.argo.metadata[0].name
 
-  set = [{
-    name  = "githubRepositoryName"
-    value = var.github_repository_name
-    },
-    {
-      name  = "githubApplicationId"
-      value = var.github_application_id
-    },
-    {
-      name  = "githubApplicationInstallationId"
-      value = var.github_application_installation_id
-    }
-  ]
-  set_sensitive = [
-    {
-      name  = "githubApplicationPrivateKey"
-      value = var.github_application_private_key
-    }
+  values = [
+    sensitive(jsonencode({
+      githubRepositoryName            = var.github_repository_name
+      githubApplicationId             = var.github_application_id
+      githubApplicationInstallationId = var.github_application_installation_id
+      githubApplicationPrivateKey     = var.github_application_private_key
+    }))
   ]
   depends_on = [helm_release.argo]
 }
