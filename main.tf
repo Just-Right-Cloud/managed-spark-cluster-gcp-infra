@@ -69,7 +69,9 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
     {
       name  = "githubApplicationInstallationId"
       value = var.github_application_installation_id
-    },
+    }
+  ]
+  set_sensitive = [
     {
       name  = "githubApplicationPrivateKey"
       value = var.github_application_private_key
