@@ -21,13 +21,18 @@ jobs:
 
       - name: Extra Variables
         run: |
-          jq '. += {
+          CLEAN_KEY=$(echo "$GITHUB_APP_KEY" | sed 's/^[[:space:]]*//')
+
+          jq -r --arg GITHUB_APP_KEY "$CLEAN_KEY" '. += {
             "github_repository_name": "Just-Right-Cloud/argo-cd",
             "github_application_id": "${{ vars.ARGOCD_APP_ID }}",
             "github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}",
-            "github_application_private_key": "${{ secrets.ARGOCD_APP_PRIVATE_KEY }}",
+            "github_application_private_key": $GITHUB_APP_KEY,
             "cloudflare_api_token": "${{ secrets.CLOUDFLARE_API_TOKEN }}"
           }' test.tfvars.json > injected.tfvars.json
+        env:
+          GITHUB_APP_KEY: |
+            ${{ secrets.ARGOCD_APP_PRIVATE_KEY }}
 
       - run: cat injected.tfvars.json
 

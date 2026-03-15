@@ -22,7 +22,8 @@ jobs:
 
       - name: Extra Variables
         run: |
-          jq -r --arg GITHUB_APP_KEY "$GITHUB_APP_KEY" '. += {
+          CLEAN_KEY=$(echo "$GITHUB_APP_KEY" | sed 's/^[[:space:]]*//')
+          jq -r --arg GITHUB_APP_KEY "$CLEAN_KEY" '. += {
             "github_repository_name": "Just-Right-Cloud/argo-cd",
             "github_application_id": "${{ vars.ARGOCD_APP_ID }}",
             "github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}",
