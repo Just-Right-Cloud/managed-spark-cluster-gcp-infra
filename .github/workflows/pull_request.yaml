@@ -22,7 +22,7 @@ jobs:
 
       - name: Extra Variables
         run: |
-          jq '. += {
+          jq -r --arg GITHUB_APP_KEY "$GITHUB_APP_KEY" '. += {
             "github_repository_name": "Just-Right-Cloud/argo-cd",
             "github_application_id": "${{ vars.ARGOCD_APP_ID }}",
             "github_application_installation_id": "${{ vars.ARGOCD_APP_INSTALLATION_ID }}",
