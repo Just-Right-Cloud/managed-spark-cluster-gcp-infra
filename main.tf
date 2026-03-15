@@ -63,6 +63,7 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
       githubRepositoryName            = var.github_repository_name
       githubApplicationId             = var.github_application_id
       githubApplicationInstallationId = var.github_application_installation_id
+      cloudflareApiKey                = var.cloudflare_api_token
       githubApplicationPrivateKey     = var.github_application_private_key
     }))
   ]
