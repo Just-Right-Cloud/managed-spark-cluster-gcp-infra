@@ -69,12 +69,12 @@ resource "helm_release" "argo_app_of_apps_bootstrap" {
     {
       name  = "githubApplicationInstallationId"
       value = var.github_application_installation_id
-    },
-    {
-      name  = "githubApplicationPrivateKey"
-      value = var.github_application_private_key
     }
   ]
+  set_sensitive = [{
+    name  = "githubApplicationPrivateKey"
+    value = var.github_application_private_key
+  }]
 
   depends_on = [helm_release.argo]
 }
