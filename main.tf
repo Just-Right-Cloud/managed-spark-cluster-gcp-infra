@@ -9,7 +9,6 @@ resource "google_container_cluster" "main" {
   depends_on = [google_project_service.project, module.network]
 }
 
-
 resource "kubernetes_namespace" "argo" {
   metadata {
     name = "argocd"
