@@ -11,6 +11,10 @@ resource "google_container_cluster" "main" {
     }
   }
 
+  gateway_api_config {
+    channel = "CHANNEL_STANDARD"
+  }
+
   depends_on = [google_project_service.project, module.network]
 }
 
