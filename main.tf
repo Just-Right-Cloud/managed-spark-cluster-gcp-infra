@@ -5,6 +5,11 @@ resource "google_container_cluster" "main" {
   enable_autopilot    = true
   initial_node_count  = 1
   deletion_protection = false
+  addons_config {
+    http_load_balancing {
+      disabled = false
+    }
+  }
 
   depends_on = [google_project_service.project, module.network]
 }
