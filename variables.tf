@@ -8,7 +8,6 @@ variable "project_id" {
 variable "location" {
   description = "The region to use for infrastructure."
   type        = string
-  default     = "asia-south1"
 }
 
 variable "github_application_id" {
