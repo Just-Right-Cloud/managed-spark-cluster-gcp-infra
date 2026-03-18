@@ -20,4 +20,3 @@ module "network" {
 
   depends_on = [google_project_service.project]
 }
-
