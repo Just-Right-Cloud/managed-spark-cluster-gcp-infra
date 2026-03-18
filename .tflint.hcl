@@ -52,7 +52,7 @@ rule "terraform_comment_syntax" {
   enabled = true
 }
 
-rule "terraform_documentented_outputs" {
+rule "terraform_documented_outputs" {
   enabled = true
 }
 
