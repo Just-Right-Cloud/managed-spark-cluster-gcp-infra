@@ -1,6 +1,5 @@
 module "network" {
-  source  = "terraform-google-modules/network/google"
-  version = "11.1.1"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-network?ref=563490f9f440f66a2c996daafad4ca8d83f7dfa2" #version 11.1.1
 
   project_id   = var.project_id
   network_name = "gke-vpc"
@@ -21,4 +20,3 @@ module "network" {
 
   depends_on = [google_project_service.project]
 }
-
